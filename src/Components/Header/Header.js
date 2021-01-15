@@ -37,7 +37,7 @@ export default class Header extends Component {
         this.props.updateUser(user.data);
         this.setState({username: '', password: ''});
       })
-      .catch(err => alert(err.response.request.response));
+      .catch(error => alert(error.response.request.response));
   }
   register() {
     const {username, password, isAdmin} = this.state;

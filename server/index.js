@@ -4,6 +4,8 @@ const express = require('express'),
       session = require('express-session'),
       massive = require('massive'),
       authCtrl = require('./controllers/authController'),
+      treasureCtrl = require('./controllers/treasureController'),
+      auth = require('./middleware/authMiddleware');
       app = express()
 
 const PORT = 4000;
@@ -29,6 +31,10 @@ app.use(session({
 app.post('/auth/register', authCtrl.register);
 app.post('/auth/login', authCtrl.login);
 app.get('/auth/logout', authCtrl.logout);
+app.get('/api/treasure/dragon', treasureCtrl.dragonTreasure);
+app.get('/api/treasure/user', auth.usersOnly, treasureCtrl.getUserTreasure);
+app.post('/api/treasure/user', auth.usersOnly, treasureCtrl.addUserTreasure);
+app.get('/api/treasure/all', auth.usersOnly, auth.adminsOnly, treasureCtrl.getAllTreasure);
 
 
 app.listen(PORT, () => console.log(`Server is listening on port: ${PORT}`));
